@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Context;
+using Microsoft.EntityFrameworkCore;
 using Model;
 using Repositories.Base;
 
@@ -17,7 +18,10 @@ namespace Repositories.Faculties
 
         public IEnumerable<Room> GetRoomsByFacultyId(Guid facultyId)
         {
-            return GetById(facultyId)
+            return GetAll()
+                .Where(x => x.Id == facultyId)
+                .Include(x => x.Rooms)
+                .FirstOrDefault()?
                 .Rooms;
         }
     }

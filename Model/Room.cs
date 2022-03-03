@@ -13,7 +13,7 @@ namespace Model
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        
-        public DbSet<Desk> Desks { get; set; }
+        public virtual Guid FacultyId { get; set; }
+        public List<Desk> Desks { get; set; }
     }
 }

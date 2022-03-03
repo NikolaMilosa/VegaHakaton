@@ -18,7 +18,11 @@ namespace Repositories.Rooms
 
         public IEnumerable<Desk> GetDesksInRoom(Guid roomId)
         {
-            return GetById(roomId).Desks;
+            return GetAll()
+                .Where(x => x.Id == roomId)
+                .Include(x => x.Desks)
+                .FirstOrDefault()?
+                .Desks;
         }
     }
 }

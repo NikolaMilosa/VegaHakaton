@@ -31,7 +31,7 @@ namespace API.Controllers
         {
             var query = new GetRoomsByFacultyIdQuery(faculty);
             var result = await _mediator.Send(query);
-            return Ok(result);
+            return result == null ? BadRequest("Faculty not found!") : Ok(result);
         }
     }
 }
