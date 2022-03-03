@@ -8,6 +8,7 @@ using HandlerObjects.Command;
 using Infrastructure.UnitOfWork;
 using MediatR;
 using Model;
+using Repositories.Desks;
 using Repositories.Rooms;
 
 namespace Handlers.DeskHandlers
@@ -30,10 +31,11 @@ namespace Handlers.DeskHandlers
 
             var newDesk = new Desk()
             {
-                Name = request.Name
+                Name = request.Name,
+                RoomId = room.Id
             };
 
-            room.Desks.Add(newDesk);
+            _uow.GetRepository<IDeskWriteRepository>().Add(newDesk);
 
             _uow.SaveChanges();
 

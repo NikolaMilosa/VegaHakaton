@@ -17,7 +17,7 @@ namespace Context
 
             var databaseProvider = ExtractProvider();
 
-            ConfigureOptionBuilder(databaseProvider, optionsBuilder, connectionString);
+            ConfigureOptionBuilderDBProvider(databaseProvider, optionsBuilder, connectionString);
 
             return new AppDbContext(optionsBuilder.Options);
         }
@@ -29,12 +29,21 @@ namespace Context
 
             var databaseProvider = ExtractProvider();
 
-            ConfigureOptionBuilder(databaseProvider, optionsBuilder, connectionString);
+            ConfigureOptionBuilderDBProvider(databaseProvider, optionsBuilder, connectionString);
 
             return optionsBuilder.Options;
         }
 
-        private static void ConfigureOptionBuilder(string databaseProvider, DbContextOptionsBuilder<AppDbContext> optionsBuilder,
+        public static void ConfigureOptionsBuilder(DbContextOptionsBuilder optionsBuilder)
+        {
+            var connectionString = ExtractConnectionString();
+
+            var databaseProvider = ExtractProvider();
+
+            ConfigureOptionBuilderDBProvider(databaseProvider, optionsBuilder, connectionString);
+        }
+
+        private static void ConfigureOptionBuilderDBProvider(string databaseProvider, DbContextOptionsBuilder optionsBuilder,
             string connectionString)
         {
             if (databaseProvider == "Postgres")

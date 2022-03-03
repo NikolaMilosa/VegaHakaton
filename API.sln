@@ -25,13 +25,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{C8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{0D6C2043-9032-4C4F-8804-35282246241A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Handlers", "Handlers\Handlers.csproj", "{A244B053-B4C7-44B3-BE03-0DE05F6D16D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Handlers", "Handlers\Handlers.csproj", "{A244B053-B4C7-44B3-BE03-0DE05F6D16D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandlerObjects", "HandlerObjects\HandlerObjects.csproj", "{DDB618E1-162D-4CB1-94B5-0825BD6F04FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HandlerObjects", "HandlerObjects\HandlerObjects.csproj", "{DDB618E1-162D-4CB1-94B5-0825BD6F04FE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DTO", "DTO", "{A90B1DD3-0727-4649-849C-7E884E560885}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTO", "DTO\DTO.csproj", "{DE3BA7A4-C919-483A-9BD1-FC61BD7F8FE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTO", "DTO\DTO.csproj", "{DE3BA7A4-C919-483A-9BD1-FC61BD7F8FE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

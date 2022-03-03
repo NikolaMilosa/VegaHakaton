@@ -21,12 +21,24 @@ namespace Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Booking>().OwnsOne(o => o.Range,
+            modelBuilder.Entity<Booking>()
+                .OwnsOne(o => o.Range,
                 sa =>
                 {
                     sa.Property(p => p.From).HasColumnName("From");
                     sa.Property(p => p.To).HasColumnName("To");
                 });
+
+            modelBuilder.Entity<Room>()
+                .HasOne<Faculty>()
+                .WithMany(x => x.Rooms)
+                .HasForeignKey(x => x.FacultyId);
+
+            modelBuilder.Entity<Desk>()
+                .HasOne<Room>()
+                .WithMany(x => x.Desks)
+                .HasForeignKey(x => x.RoomId);
+
             base.OnModelCreating(modelBuilder);
         }
     }

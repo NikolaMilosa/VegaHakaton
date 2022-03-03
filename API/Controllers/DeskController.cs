@@ -33,7 +33,7 @@ namespace API.Controllers
         {
             var query = new GetAllDesksByRoomIdQuery(room);
             var result = await _mediator.Send(query);
-            return Ok(result);
+            return result == null ? BadRequest("Room not found!") : Ok(result);
         }
 
         [HttpPost]
