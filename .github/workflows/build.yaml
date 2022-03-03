@@ -9,7 +9,7 @@ env:
 
 jobs:
   build-and-test:
-    name: Build and Test
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
