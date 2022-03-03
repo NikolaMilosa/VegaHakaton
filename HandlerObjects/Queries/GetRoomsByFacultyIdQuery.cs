@@ -8,7 +8,7 @@ using Model;
 
 namespace HandlerObjects.Queries
 {
-    public class GetRoomsByFacultyIdQuery : IRequest<Room>
+    public class GetRoomsByFacultyIdQuery : IRequest<Room>, IRequest<IEnumerable<Room>>
     {
         public Guid FacultyId { get; }
 

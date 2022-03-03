@@ -11,5 +11,6 @@ namespace Model
     public class Desk
     {
         public Guid Id { get; set; }
+        public string Name { get; set; }
     }
 }

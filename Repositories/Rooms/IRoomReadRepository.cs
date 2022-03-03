@@ -10,5 +10,6 @@ namespace Repositories.Rooms
 {
     public interface IRoomReadRepository : IReadBaseRepository<Guid, Room>
     {
+        IEnumerable<Desk> GetDesksInRoom(Guid roomId);
     }
 }

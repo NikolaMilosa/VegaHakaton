@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HandlerObjects.Queries;
 using Infrastructure.UnitOfWork;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Model;
 using Repositories.Faculties;
 
