@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Model
 {
@@ -13,6 +14,6 @@ namespace Model
         public Guid Id { get; set; }
         public string Name { get; set; }
         
-        public IEnumerable<Desk> Desks { get; set; }
+        public DbSet<Desk> Desks { get; set; }
     }
 }

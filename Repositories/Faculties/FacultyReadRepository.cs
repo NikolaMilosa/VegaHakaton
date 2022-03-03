@@ -14,5 +14,11 @@ namespace Repositories.Faculties
         public FacultyReadRepository(AppDbContext context) : base(context)
         {
         }
+
+        public IEnumerable<Room> GetRoomsByFacultyId(Guid facultyId)
+        {
+            return GetById(facultyId)
+                .Rooms;
+        }
     }
 }

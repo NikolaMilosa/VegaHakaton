@@ -10,5 +10,6 @@ namespace Repositories.Faculties
 {
     public interface IFacultyReadRepository : IReadBaseRepository<Guid, Faculty>
     {
+        IEnumerable<Room> GetRoomsByFacultyId(Guid facultyId);
     }
 }

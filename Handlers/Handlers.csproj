@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DeskHandlers\" />
     <Folder Include="BookingHandlers\" />
-    <Folder Include="RoomHandlers\" />
   </ItemGroup>
 
   <ItemGroup>
