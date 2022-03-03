@@ -14,7 +14,9 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Handlers.FacultyHandlers;
 using Infrastructure.Modules;
+using Infrastructure.UnitOfWork;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using Repositories.Rooms;
 using Services;
@@ -51,7 +53,9 @@ namespace API
                 Namespace = ""
             });
 
-            builder.RegisterMediatR(typeof(TempClass).Assembly);
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
+
+            builder.RegisterMediatR(typeof(GetAllFacultiesHandler).Assembly);
             builder.Populate(services);
             return new AutofacServiceProvider(builder.Build());
         }
