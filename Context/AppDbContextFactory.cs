@@ -19,7 +19,6 @@ namespace Context
 
             ConfigureOptionBuilder(databaseProvider, optionsBuilder, connectionString);
 
-
             return new AppDbContext(optionsBuilder.Options);
         }
 
@@ -31,8 +30,6 @@ namespace Context
             var databaseProvider = ExtractProvider();
 
             ConfigureOptionBuilder(databaseProvider, optionsBuilder, connectionString);
-
-            optionsBuilder.UseNpgsql(connectionString);
 
             return optionsBuilder.Options;
         }
