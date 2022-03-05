@@ -7,11 +7,11 @@ using MediatR;
 
 namespace HandlerObjects.Command
 {
-    public class DeleteDeskCommand : IRequest<Guid>
+    public class DeleteDeskCommand : IRequest<string>
     {
-        public Guid DeskId { get; set; }
+        public string DeskId { get; set; }
 
-        public DeleteDeskCommand(Guid deskId)
+        public DeleteDeskCommand(string deskId)
         {
             DeskId = deskId;
         }

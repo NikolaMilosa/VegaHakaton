@@ -22,7 +22,8 @@ using Infrastructure.UnitOfWork;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Rooms;
-using Services;
+using Services.DatabasePopulator;
+using Services.RandomHexaGenerator;
 
 namespace API
 {
@@ -53,8 +54,8 @@ namespace API
                     if (context.Database.GetPendingMigrations().Any())
                     {
                         context.Database.Migrate();
+                        new DatabasePopulatorService().Populate(context);
                     }
-                    DatabasePopulationService.Populate(context);
                 }
             });
             var builder = new ContainerBuilder();
@@ -69,6 +70,7 @@ namespace API
             });
 
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
+            builder.RegisterType<Generator>().As<IGenerator>();
 
             builder.RegisterMediatR(typeof(GetAllFacultiesHandler).Assembly);
             builder.Populate(services);
@@ -81,11 +83,10 @@ namespace API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
 
-            app.UseHttpsRedirection();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 
             app.UseRouting();
 

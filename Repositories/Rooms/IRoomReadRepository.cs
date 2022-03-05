@@ -8,8 +8,9 @@ using Repositories.Base;
 
 namespace Repositories.Rooms
 {
-    public interface IRoomReadRepository : IReadBaseRepository<Guid, Room>
+    public interface IRoomReadRepository : IReadBaseRepository<string, Room>
     {
-        IEnumerable<Desk> GetDesksInRoom(Guid roomId);
+        IEnumerable<Desk> GetDesksInRoom(string roomId);
+        int GetNextInOrder(string roomId);
     }
 }

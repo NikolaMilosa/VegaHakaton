@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Context.Migrations
+namespace MssqlMigrations.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220303173929_DeskAddedName")]
-    partial class DeskAddedName
+    [Migration("20220305171736_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,15 +34,14 @@ namespace Context.Migrations
 
             modelBuilder.Entity("Model.Desk", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("RoomId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -53,9 +52,8 @@ namespace Context.Migrations
 
             modelBuilder.Entity("Model.Faculty", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -67,12 +65,11 @@ namespace Context.Migrations
 
             modelBuilder.Entity("Model.Room", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid?>("FacultyId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("FacultyId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -115,6 +112,32 @@ namespace Context.Migrations
                     b.HasOne("Model.Room", null)
                         .WithMany("Desks")
                         .HasForeignKey("RoomId");
+                });
+
+            modelBuilder.Entity("Model.Faculty", b =>
+                {
+                    b.OwnsOne("Model.WorkingHours", "WorkingHours", b1 =>
+                        {
+                            b1.Property<string>("FacultyId")
+                                .HasColumnType("nvarchar(450)");
+
+                            b1.Property<TimeSpan>("Closes")
+                                .HasColumnType("time")
+                                .HasColumnName("Closes");
+
+                            b1.Property<TimeSpan>("Opens")
+                                .HasColumnType("time")
+                                .HasColumnName("Opens");
+
+                            b1.HasKey("FacultyId");
+
+                            b1.ToTable("Faculties");
+
+                            b1.WithOwner()
+                                .HasForeignKey("FacultyId");
+                        });
+
+                    b.Navigation("WorkingHours");
                 });
 
             modelBuilder.Entity("Model.Room", b =>

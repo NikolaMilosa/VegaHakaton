@@ -1,4 +1,4 @@
-name: Build
+name: Build and test
 
 on:
   pull_request:
@@ -26,3 +26,8 @@ jobs:
 
       - name: Build
         run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        run: |
+          dotnet test ServicesTests/
+          dotnet test HandlersTests/

@@ -34,6 +34,14 @@ namespace Context
             return optionsBuilder.Options;
         }
 
+        public static DbContextOptions<AppDbContext> GetTestableOptions()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+            optionsBuilder.UseInMemoryDatabase("test-database");
+
+            return optionsBuilder.Options;
+        }
+
         public static void ConfigureOptionsBuilder(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = ExtractConnectionString();
@@ -49,10 +57,6 @@ namespace Context
             if (databaseProvider == "Postgres")
             {
                 optionsBuilder.UseNpgsql(connectionString);
-            }
-            else if (databaseProvider == "Mssql")
-            {
-                optionsBuilder.UseSqlServer(connectionString);
             }
             else
             {

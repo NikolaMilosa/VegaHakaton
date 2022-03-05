@@ -19,18 +19,11 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetRooms([FromQuery] string faculty)
         {
-            var query = new GetAllRoomsQuery();
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        [HttpGet("{faculty}")]
-        public async Task<IActionResult> GetById(Guid faculty)
-        {
-            var query = new GetRoomsByFacultyIdQuery(faculty);
-            var result = await _mediator.Send(query);
+            var result = string.IsNullOrEmpty(faculty) 
+                ? await _mediator.Send(new GetAllRoomsQuery()) 
+                : await _mediator.Send(new GetRoomsByFacultyIdQuery(faculty));
             return result == null ? BadRequest("Faculty not found!") : Ok(result);
         }
     }
