@@ -11,7 +11,7 @@ Nakon instaliranja svih neophodnih programa, potrebno je postaviti vrednosti odr
 | Naziv promenljive | Značenje | Vrednost |
 | :---: | :---: | :---: |
 | DB_PATH | connection string za bazu, neophodno je zameniti vrednost username i password na ono što je korisnik postavio pri instaliranju i podešavanju postgresa | host=localhost; port=5432; database=VegaDB; username=postgres; password=postgres  
-| DB_PROVIDER | u koliko bude neophodno podržati više database providera, za sada jedina mogućnost postgres | postgres
+| DB_PROVIDER | u koliko bude neophodno podržati više database providera, za sada jedina mogućnost postgres | Postgres
 
 Nakon podešavanja environment promenljivih neophodno je restartovati Visual Studio. Nakon restartovanja pokrenuti aplikaciju sa F5 ili pritiskom na dugme 'IIS Express'
 
