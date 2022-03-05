@@ -11,8 +11,9 @@ namespace Model
     [Table("Faculties")]
     public class Faculty
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
+        public WorkingHours WorkingHours { get; set; }
         public List<Room> Rooms { get; set; }
     }
 }

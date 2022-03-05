@@ -3,10 +3,10 @@ using System;
 using Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Context.Migrations
+namespace MssqlMigrations.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -15,15 +15,15 @@ namespace Context.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 63)
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.14")
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Model.Booking", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -33,13 +33,13 @@ namespace Context.Migrations
             modelBuilder.Entity("Model.Desk", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Order")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("RoomId")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -51,10 +51,10 @@ namespace Context.Migrations
             modelBuilder.Entity("Model.Faculty", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -64,13 +64,13 @@ namespace Context.Migrations
             modelBuilder.Entity("Model.Room", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FacultyId")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -84,14 +84,14 @@ namespace Context.Migrations
                     b.OwnsOne("Model.DateRange", "Range", b1 =>
                         {
                             b1.Property<Guid>("BookingId")
-                                .HasColumnType("uuid");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<DateTime>("From")
-                                .HasColumnType("timestamp without time zone")
+                                .HasColumnType("datetime2")
                                 .HasColumnName("From");
 
                             b1.Property<DateTime>("To")
-                                .HasColumnType("timestamp without time zone")
+                                .HasColumnType("datetime2")
                                 .HasColumnName("To");
 
                             b1.HasKey("BookingId");
@@ -117,14 +117,14 @@ namespace Context.Migrations
                     b.OwnsOne("Model.WorkingHours", "WorkingHours", b1 =>
                         {
                             b1.Property<string>("FacultyId")
-                                .HasColumnType("text");
+                                .HasColumnType("nvarchar(450)");
 
                             b1.Property<TimeSpan>("Closes")
-                                .HasColumnType("interval")
+                                .HasColumnType("time")
                                 .HasColumnName("Closes");
 
                             b1.Property<TimeSpan>("Opens")
-                                .HasColumnType("interval")
+                                .HasColumnType("time")
                                 .HasColumnName("Opens");
 
                             b1.HasKey("FacultyId");

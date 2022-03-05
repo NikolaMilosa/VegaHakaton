@@ -4,24 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DTO;
+using HandlerObjects.Responses;
 using MediatR;
 
 namespace HandlerObjects.Command
 {
-    public class CreateNewDeskCommand : IRequest<Guid>
+    public class CreateNewDeskCommand : IRequest<BasicResponse>
     {
-        public string Name { get; }
-        public Guid RoomId { get; }
+        public string RoomId { get; }
 
-        public CreateNewDeskCommand(string name, Guid roomId)
+        public CreateNewDeskCommand(string roomId)
         {
-            Name = name;
             RoomId = roomId;
         }
 
         public CreateNewDeskCommand(DeskDto deskDto)
         {
-            Name = deskDto.Name;
             RoomId = deskDto.RoomId;
         }
     }

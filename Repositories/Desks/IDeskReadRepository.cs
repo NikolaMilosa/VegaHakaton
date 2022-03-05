@@ -8,7 +8,7 @@ using Repositories.Base;
 
 namespace Repositories.Desks
 {
-    public interface IDeskReadRepository : IReadBaseRepository<Guid, Desk>
+    public interface IDeskReadRepository : IReadBaseRepository<string, Desk>
     {
     }
 }

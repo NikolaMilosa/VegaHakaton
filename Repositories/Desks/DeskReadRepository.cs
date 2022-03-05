@@ -9,7 +9,7 @@ using Repositories.Base;
 
 namespace Repositories.Desks
 {
-    public class DeskReadRepository : ReadBaseRepository<Guid, Desk>, IDeskReadRepository
+    public class DeskReadRepository : ReadBaseRepository<string, Desk>, IDeskReadRepository
     {
         public DeskReadRepository(AppDbContext context) : base(context)
         {

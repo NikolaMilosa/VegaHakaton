@@ -10,9 +10,9 @@ namespace HandlerObjects.Queries
 {
     public class GetRoomsByFacultyIdQuery : IRequest<IEnumerable<Room>>
     {
-        public Guid FacultyId { get; }
+        public string FacultyId { get; }
 
-        public GetRoomsByFacultyIdQuery(Guid facultyId)
+        public GetRoomsByFacultyIdQuery(string facultyId)
         {
             FacultyId = facultyId;
         }

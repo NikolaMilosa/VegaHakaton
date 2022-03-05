@@ -19,20 +19,13 @@ namespace API.Controllers
         {
             _mediator = mediator;
         }
-
+        
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetDesks([FromQuery] string room)
         {
-            var query = new GetAllDesksQuery();
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        [HttpGet("{room}")]
-        public async Task<IActionResult> GetByRoomId(Guid room)
-        {
-            var query = new GetAllDesksByRoomIdQuery(room);
-            var result = await _mediator.Send(query);
+            var result = string.IsNullOrEmpty(room) 
+                ? await _mediator.Send(new GetAllDesksQuery())
+                : await _mediator.Send(new GetAllDesksByRoomIdQuery(room));
             return result == null ? BadRequest("Room not found!") : Ok(result);
         }
 
@@ -41,15 +34,15 @@ namespace API.Controllers
         {
             var command = new CreateNewDeskCommand(newDesk);
             var result = await _mediator.Send(command);
-            return result == Guid.Empty ? NotFound("Room not found!") : Ok(result);
+            return result.IsSuccessful ? Ok(result) : NotFound("Room not found!");
         }
 
-        [HttpDelete("/{id}")]
-        public async Task<IActionResult> DeleteDesk(Guid id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDesk(string id)
         {
             var command = new DeleteDeskCommand(id);
             var result = await _mediator.Send(command);
-            return result == Guid.Empty ? NotFound("Desk not found!") : Ok(result);
+            return result == string.Empty ? NotFound("Desk not found!") : Ok(result);
         }
     }
 }

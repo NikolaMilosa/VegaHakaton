@@ -28,6 +28,14 @@ namespace Context
                     sa.Property(p => p.From).HasColumnName("From");
                     sa.Property(p => p.To).HasColumnName("To");
                 });
+            
+            modelBuilder.Entity<Faculty>()
+                .OwnsOne(o => o.WorkingHours,
+                    sa =>
+                    {
+                        sa.Property(p => p.Opens).HasColumnName("Opens");
+                        sa.Property(p => p.Closes).HasColumnName("Closes");
+                    });
 
             modelBuilder.Entity<Room>()
                 .HasOne<Faculty>()

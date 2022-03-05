@@ -10,13 +10,13 @@ using Repositories.Base;
 
 namespace Repositories.Faculties
 {
-    public class FacultyReadRepository : ReadBaseRepository<Guid, Faculty>, IFacultyReadRepository
+    public class FacultyReadRepository : ReadBaseRepository<string, Faculty>, IFacultyReadRepository
     {
         public FacultyReadRepository(AppDbContext context) : base(context)
         {
         }
 
-        public IEnumerable<Room> GetRoomsByFacultyId(Guid facultyId)
+        public IEnumerable<Room> GetRoomsByFacultyId(string facultyId)
         {
             return GetAll()
                 .Where(x => x.Id == facultyId)
