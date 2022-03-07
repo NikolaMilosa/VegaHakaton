@@ -3,8 +3,8 @@ using System;
 using Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Context.Migrations
 {
@@ -15,15 +15,15 @@ namespace Context.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.14")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("Model.Booking", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -32,12 +32,14 @@ namespace Context.Migrations
 
             modelBuilder.Entity("Model.Desk", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
-                    b.Property<Guid?>("RoomId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Order")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("RoomId")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -48,12 +50,11 @@ namespace Context.Migrations
 
             modelBuilder.Entity("Model.Faculty", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -62,15 +63,14 @@ namespace Context.Migrations
 
             modelBuilder.Entity("Model.Room", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
-                    b.Property<Guid?>("FacultyId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("FacultyId")
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -84,14 +84,14 @@ namespace Context.Migrations
                     b.OwnsOne("Model.DateRange", "Range", b1 =>
                         {
                             b1.Property<Guid>("BookingId")
-                                .HasColumnType("uniqueidentifier");
+                                .HasColumnType("uuid");
 
                             b1.Property<DateTime>("From")
-                                .HasColumnType("datetime2")
+                                .HasColumnType("timestamp without time zone")
                                 .HasColumnName("From");
 
                             b1.Property<DateTime>("To")
-                                .HasColumnType("datetime2")
+                                .HasColumnType("timestamp without time zone")
                                 .HasColumnName("To");
 
                             b1.HasKey("BookingId");
@@ -110,6 +110,32 @@ namespace Context.Migrations
                     b.HasOne("Model.Room", null)
                         .WithMany("Desks")
                         .HasForeignKey("RoomId");
+                });
+
+            modelBuilder.Entity("Model.Faculty", b =>
+                {
+                    b.OwnsOne("Model.WorkingHours", "WorkingHours", b1 =>
+                        {
+                            b1.Property<string>("FacultyId")
+                                .HasColumnType("text");
+
+                            b1.Property<TimeSpan>("Closes")
+                                .HasColumnType("interval")
+                                .HasColumnName("Closes");
+
+                            b1.Property<TimeSpan>("Opens")
+                                .HasColumnType("interval")
+                                .HasColumnName("Opens");
+
+                            b1.HasKey("FacultyId");
+
+                            b1.ToTable("Faculties");
+
+                            b1.WithOwner()
+                                .HasForeignKey("FacultyId");
+                        });
+
+                    b.Navigation("WorkingHours");
                 });
 
             modelBuilder.Entity("Model.Room", b =>

@@ -10,6 +10,8 @@ namespace Model
     [Table("Desks")]
     public class Desk
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
+        public int Order { get; set; }
+        public virtual string RoomId { get; set; }
     }
 }

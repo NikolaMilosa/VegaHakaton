@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("/[controller]/[action]")]
     public class TestController : ControllerBase
     {
         public TestController()
@@ -15,9 +14,10 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Route("/ping")]
         public IActionResult Ping()
         {
-            return Ok("Pong");
+            return Ok("pong");
         }
     }
 }

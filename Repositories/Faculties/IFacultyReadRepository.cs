@@ -8,7 +8,8 @@ using Repositories.Base;
 
 namespace Repositories.Faculties
 {
-    public interface IFacultyReadRepository : IReadBaseRepository<Guid, Faculty>
+    public interface IFacultyReadRepository : IReadBaseRepository<string, Faculty>
     {
+        IEnumerable<Room> GetRoomsByFacultyId(string facultyId);
     }
 }

@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services
+namespace Model
 {
-    public class TempClass
+    public class WorkingHours
     {
+        public TimeSpan Opens { get; set; }
+        public TimeSpan Closes { get; set; }
     }
 }

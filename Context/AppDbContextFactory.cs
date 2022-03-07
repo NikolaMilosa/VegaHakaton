@@ -17,8 +17,7 @@ namespace Context
 
             var databaseProvider = ExtractProvider();
 
-            ConfigureOptionBuilder(databaseProvider, optionsBuilder, connectionString);
-
+            ConfigureOptionBuilderDBProvider(databaseProvider, optionsBuilder, connectionString);
 
             return new AppDbContext(optionsBuilder.Options);
         }
@@ -30,23 +29,34 @@ namespace Context
 
             var databaseProvider = ExtractProvider();
 
-            ConfigureOptionBuilder(databaseProvider, optionsBuilder, connectionString);
-
-            optionsBuilder.UseNpgsql(connectionString);
+            ConfigureOptionBuilderDBProvider(databaseProvider, optionsBuilder, connectionString);
 
             return optionsBuilder.Options;
         }
 
-        private static void ConfigureOptionBuilder(string databaseProvider, DbContextOptionsBuilder<AppDbContext> optionsBuilder,
+        public static DbContextOptions<AppDbContext> GetTestableOptions()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+            optionsBuilder.UseInMemoryDatabase("test-database");
+
+            return optionsBuilder.Options;
+        }
+
+        public static void ConfigureOptionsBuilder(DbContextOptionsBuilder optionsBuilder)
+        {
+            var connectionString = ExtractConnectionString();
+
+            var databaseProvider = ExtractProvider();
+
+            ConfigureOptionBuilderDBProvider(databaseProvider, optionsBuilder, connectionString);
+        }
+
+        private static void ConfigureOptionBuilderDBProvider(string databaseProvider, DbContextOptionsBuilder optionsBuilder,
             string connectionString)
         {
             if (databaseProvider == "Postgres")
             {
                 optionsBuilder.UseNpgsql(connectionString);
-            }
-            else if (databaseProvider == "Mssql")
-            {
-                optionsBuilder.UseSqlServer(connectionString);
             }
             else
             {

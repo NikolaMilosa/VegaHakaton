@@ -14,10 +14,16 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Context;
+using Handlers;
+using Handlers.FacultyHandlers;
 using Infrastructure.Modules;
+using Infrastructure.UnitOfWork;
 using MediatR.Extensions.Autofac.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Repositories.Rooms;
-using Services;
+using Services.DatabasePopulator;
+using Services.RandomHexaGenerator;
 
 namespace API
 {
@@ -39,9 +45,21 @@ namespace API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
 
+            services.AddDbContextPool<AppDbContext>(optionsBuilder =>
+            {
+                AppDbContextFactory.ConfigureOptionsBuilder(optionsBuilder);
+
+                using (var context = new AppDbContext(optionsBuilder.Options as DbContextOptions<AppDbContext>))
+                {
+                    if (context.Database.GetPendingMigrations().Any())
+                    {
+                        context.Database.Migrate();
+                        new DatabasePopulatorService().Populate(context);
+                    }
+                }
+            });
             var builder = new ContainerBuilder();
 
-            builder.RegisterModule(new DbModule());
             builder.RegisterModule(new RepositoryModule()
             {
                 RepositoryAssemblies = new List<Assembly>()
@@ -51,7 +69,10 @@ namespace API
                 Namespace = ""
             });
 
-            builder.RegisterMediatR(typeof(TempClass).Assembly);
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
+            builder.RegisterType<Generator>().As<IGenerator>();
+
+            builder.RegisterMediatR(typeof(GetAllFacultiesHandler).Assembly);
             builder.Populate(services);
             return new AutofacServiceProvider(builder.Build());
         }
@@ -62,11 +83,10 @@ namespace API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
 
-            app.UseHttpsRedirection();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 
             app.UseRouting();
 
